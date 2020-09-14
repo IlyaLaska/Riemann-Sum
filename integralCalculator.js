@@ -1,6 +1,7 @@
 'use strict';
 
 const findIntegral = (step, range, func) => {
+    // console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ: ", range);
     let offset = Math.pow(10, step.toString().split('.')[1].length) || 0
     // console.log("Start Point: ", range[0]);
     // console.log("End Point: ", range[1]);
@@ -13,7 +14,7 @@ const findIntegral = (step, range, func) => {
         pos = Math.round(pos * offset) / offset;
         ++counter;
     }
-    // console.log(pos);
+    // console.log(adder);
     return step * adder;
 }
 
