@@ -18,7 +18,7 @@ const ROUND_TO = 10000;
 const parallelCalculator = (step, range, func, threadCount) => {
     // console.log("IN PARALLEL_CALCULATOR FUNCTION");
     const threadStep = (range[1] - range[0]) / threadCount;
-    console.log('Thread Step: ', threadStep);
+    // console.log('Thread Step: ', threadStep);
     let pos = range[0];
     let endPoint;
     if (isMainThread) {
