@@ -10,7 +10,7 @@ const threads1 = 5, threads2 = 20;
 const func = (x) => Math.pow(x, 3) / Math.sqrt(Math.pow((Math.pow(x, 2) + 9), 3));
 const antiderivative = (x) => Math.sqrt(Math.pow(x, 2) + 9) + 9 / Math.sqrt(Math.pow(x, 2) + 9);
 
-const antider = antiderivative(3)-antiderivative(2);
+const antider = antiderivative(3) - antiderivative(2);
 let sequential = [calc.findIntegral(step2, range, func)];
 let seqTimes = [[], []];
 let parTimes = [[[], []], [[], []]];
@@ -52,18 +52,36 @@ prl.parallelCalculator(step1, range, func, threads1).then(value => {
 
 function showResults() {
     console.log("CALCULATION RESULTS:");
-    console.log('FROM ANTIDERIVATIVE:               ', antider.toFixed(14));
-    console.log(`RESULT SEQUENTIAL (step = ${step1}):  `, sequential[0].toFixed(14), ` Diff: ${Math.abs(antider - sequential[0]).toFixed(10)}`);
-    console.log(`RESULT SEQUENTIAL (step = ${step2}): `, sequential[1].toFixed(14), `Diff: ${Math.abs(antider - sequential[1]).toFixed(10)}`);
-    console.log(`RESULT PARALLEL (step = ${step1}):    `, parallel[0].toFixed(14), ` Diff: ${Math.abs(antider - parallel[0]).toFixed(10)}`);
-    console.log(`RESULT PARALLEL (step = ${step2}):   `, parallel[1].toFixed(14), `Diff: ${Math.abs(antider - parallel[1]).toFixed(10)}`);
+    console.log('FROM ANTIDERIVATIVE:'.padEnd(35, ' '), antider.toFixed(14));
+    console.log(`RESULT SEQUENTIAL (step = ${step1}):`.padEnd(35, ' '), sequential[0].toFixed(14).padEnd(20, ' '), `Diff: ${Math.abs(antider - sequential[0]).toFixed(10)}`);
+    console.log(`RESULT SEQUENTIAL (step = ${step2}):`.padEnd(35, ' '), sequential[1].toFixed(14).padEnd(20, ' '), `Diff: ${Math.abs(antider - sequential[1]).toFixed(10)}`);
+    console.log(`RESULT PARALLEL (step = ${step1}):`.padEnd(35, ' '), parallel[0].toFixed(14).padEnd(20, ' '), `Diff: ${Math.abs(antider - parallel[0]).toFixed(10)}`);
+    console.log(`RESULT PARALLEL (step = ${step2}):`.padEnd(35, ' '), parallel[1].toFixed(14).padEnd(20, ' '), `Diff: ${Math.abs(antider - parallel[1]).toFixed(10)}`);
     console.log('\nEXECUTION TIMES:');
     // console.log(seqTimes);
-    console.log(`SEQUENTIAL (step = ${step1}):              `, `${seqTimes[0][1][1] / 1000000} ms`);
-    console.log(`SEQUENTIAL (step = ${step2}):             `, `${seqTimes[1][1][1] / 1000000} ms`);
+    console.log(`SEQUENTIAL (step = ${step1}):`.padEnd(40, ' '), `${seqTimes[0][1][1] / 1000000} ms`);
+    console.log(`SEQUENTIAL (step = ${step2}):`.padEnd(40, ' '), `${seqTimes[1][1][1] / 1000000} ms`);
     // console.dir(parTimes, {depth: null});
-    console.log(`PARALLEL (step = ${step1}, threads = ${threads1}):   `, `${parTimes[0][0][1][1] / 1000000} ms`, `ACCEL. COEF.: ${(seqTimes[0][1][1] / 1000000)/(parTimes[0][0][1][1] / 1000000)}`);
-    console.log(`PARALLEL (step = ${step1}, threads = ${threads2}): `, `${parTimes[0][1][1][1] / 1000000} ms`, `ACCEL. COEF.: ${(seqTimes[0][1][1] / 1000000)/(parTimes[0][1][1][1] / 1000000)}`);
-    console.log(`PARALLEL (step = ${step2}, threads = ${threads1}):   `, `${parTimes[1][0][1][1] / 1000000} ms`, `ACCEL. COEF.: ${(seqTimes[1][1][1] / 1000000)/(parTimes[1][0][1][1] / 1000000)}`);
-    console.log(`PARALLEL (step = ${step2}, threads = ${threads2}): `, `${parTimes[1][1][1][1] / 1000000} ms`, `ACCEL. COEF.: ${(seqTimes[1][1][1] / 1000000)/(parTimes[1][1][1][1] / 1000000)}`);
+    const accelCoefs = [
+        (seqTimes[0][1][1] / 1000000) / (parTimes[0][0][1][1] / 1000000),
+        (seqTimes[0][1][1] / 1000000) / (parTimes[0][1][1][1] / 1000000),
+        (seqTimes[1][1][1] / 1000000) / (parTimes[1][0][1][1] / 1000000),
+        (seqTimes[1][1][1] / 1000000) / (parTimes[1][1][1][1] / 1000000)];
+    const effCoefs = [
+        accelCoefs[0]/threads1,
+        accelCoefs[1]/threads2,
+        accelCoefs[2]/threads1,
+        accelCoefs[3]/threads2];
+    console.log(`PARALLEL (step = ${step1}, threads = ${threads1}):`.padEnd(40, ' '), `${parTimes[0][0][1][1] / 1000000} ms`.padEnd(15, ' '),
+        `ACCEL. COEF.: ${accelCoefs[0]}`.padEnd(40, ' '),
+        `EFFICIENCY COEF: ${effCoefs[0]}`);
+    console.log(`PARALLEL (step = ${step1}, threads = ${threads2}):`.padEnd(40, ' '), `${parTimes[0][1][1][1] / 1000000} ms`.padEnd(15, ' '),
+        `ACCEL. COEF.: ${accelCoefs[1]}`.padEnd(40, ' '),
+        `EFFICIENCY COEF: ${effCoefs[1]}`);
+    console.log(`PARALLEL (step = ${step2}, threads = ${threads1}):`.padEnd(40, ' '), `${parTimes[1][0][1][1] / 1000000} ms`.padEnd(15, ' '),
+        `ACCEL. COEF.: ${accelCoefs[2]}`.padEnd(40, ' '),
+        `EFFICIENCY COEF: ${effCoefs[2]}`);
+    console.log(`PARALLEL (step = ${step2}, threads = ${threads2}):`.padEnd(40, ' '), `${parTimes[1][1][1][1] / 1000000} ms`.padEnd(15, ' '),
+        `ACCEL. COEF.: ${accelCoefs[3]}`.padEnd(40, ' '),
+        `EFFICIENCY COEF: ${accelCoefs[3]}`);
 }
