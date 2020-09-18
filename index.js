@@ -52,11 +52,11 @@ prl.parallelCalculator(step1, range, func, threads1).then(value => {
 
 function showResults() {
     console.log("CALCULATION RESULTS:");
-    console.log('FROM ANTIDERIVATIVE:               ', antider);
-    console.log(`RESULT SEQUENTIAL (step = ${step1}):  `, sequential[0], ` Diff: ${Math.abs(antider - sequential[0]).toFixed(10)}`);
-    console.log(`RESULT SEQUENTIAL (step = ${step2}): `, sequential[1], `Diff: ${Math.abs(antider - sequential[1]).toFixed(10)}`);
-    console.log(`RESULT PARALLEL (step = ${step1}):    `, parallel[0], ` Diff: ${Math.abs(antider - parallel[0]).toFixed(10)}`);
-    console.log(`RESULT PARALLEL (step = ${step2}):   `, parallel[1], `Diff: ${Math.abs(antider - parallel[1]).toFixed(10)}`);
+    console.log('FROM ANTIDERIVATIVE:               ', antider.toFixed(14));
+    console.log(`RESULT SEQUENTIAL (step = ${step1}):  `, sequential[0].toFixed(14), ` Diff: ${Math.abs(antider - sequential[0]).toFixed(10)}`);
+    console.log(`RESULT SEQUENTIAL (step = ${step2}): `, sequential[1].toFixed(14), `Diff: ${Math.abs(antider - sequential[1]).toFixed(10)}`);
+    console.log(`RESULT PARALLEL (step = ${step1}):    `, parallel[0].toFixed(14), ` Diff: ${Math.abs(antider - parallel[0]).toFixed(10)}`);
+    console.log(`RESULT PARALLEL (step = ${step2}):   `, parallel[1].toFixed(14), `Diff: ${Math.abs(antider - parallel[1]).toFixed(10)}`);
     console.log('\nEXECUTION TIMES:');
     // console.log(seqTimes);
     console.log(`SEQUENTIAL (step = ${step1}):              `, `${seqTimes[0][1][1] / 1000000} ms`);
